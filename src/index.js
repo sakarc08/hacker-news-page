@@ -19,6 +19,7 @@ app.get("/", (req, res) => {
       <html>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <style>
           body { font-family: Arial, sans-serif; font-size: 15px; }
