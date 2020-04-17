@@ -6,9 +6,8 @@
   "scripts": {
     "build": "webpack --mode=production",
     "dev": "webpack && concurrently \"webpack --watch\" \"nodemon dist\"",
-    "test": "npm run webpack && concurrently \"npm run webpack --watch\" \"mocha --watch\"",
-    "start": "node dist/index.js",
-    "webpack": "webpack --config webpack.test.js"
+    "test": "webpack --config webpack.test.js",
+    "start": "node dist/index.js"
   },
   "engines": {
     "node": "12.14.0"
