@@ -8,10 +8,6 @@ Enzyme.configure({ adapter: new Adapter() });
 
 describe("<Hello />", () => {
   it("renders <Hello />", () => {
-    const wrapper = shallow(<StoryBoardRoute />);
-    const actual = wrapper.find("h1").text();
-    const expected = "Hello, tests!";
-
-    expect(actual).not.to.be.equal(expected);
+    
   });
 });

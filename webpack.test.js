@@ -12,6 +12,11 @@ const js = {
   },
 };
 
+const css = {
+  test:/\.css$/,
+  use:['style-loader','css-loader']
+}
+
 module.exports = {
   mode: "development",
   target: "node",
@@ -23,7 +28,7 @@ module.exports = {
     "app.spec.js": path.resolve(__dirname, "specs/app.spec.js"),
   },
   module: {
-    rules: [js],
+    rules: [js, { test: /\.(scss|css)$/, loader: "ignore-loader" }],
   },
   output: {
     path: path.resolve(__dirname, "test"),
