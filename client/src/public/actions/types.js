@@ -1,2 +1,4 @@
 export const ERROR = "ERROR";
 export const USER_ADDED = "USER_ADDED"
+export const USER_LOGGEDIN = 'USER_LOGGEDIN'
+export const NOT_AUTHENTICATED = 'NOT_AUTHENTICATED'

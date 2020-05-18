@@ -27,12 +27,11 @@ const Signup = ({ signupUser}) => {
     const { username, password, email, confirmPassword } = formData;
     const onChange = (e) => {
         setformData({ ...formData, [e.target.name]: e.target.value});
-        console.log('new data ', formData)
-        signupUser({ username, password, email })
     }
+    
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(formData)
+        signupUser({ username, password, email })
     }
 
     return (

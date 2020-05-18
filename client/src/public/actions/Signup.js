@@ -3,7 +3,6 @@ import axios from 'axios';
 
 export const signupUser = ({ username, email, password }) => async dispatch => {
     try {
-        // backend call to add new user
         const config = {
             headers: {
                 'content-type': "application/json"
