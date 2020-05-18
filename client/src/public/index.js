@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import StoryBoardRoute from "./components/StoryBoardRoute";
+import App from "./App";
 
 ReactDOM.hydrate(
-  <StoryBoardRoute />,
+  <App />,
   document.getElementById("root")
 );

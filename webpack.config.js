@@ -25,13 +25,13 @@ const serverConfig = {
   },
   externals: [nodeExternals()],
   entry: {
-    "index.js": path.resolve(__dirname, "src/index.js"),
+    "index.js": path.resolve(__dirname, "index.js"),
   },
   module: {
     rules: [js, { test: /\.(scss|css)$/, loader: "ignore-loader" }],
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "build"),
     filename: "[name]",
   },
 };
@@ -40,7 +40,7 @@ const clientConfig = {
   mode: "development",
   target: "web",
   entry: {
-    "home.js": path.resolve(__dirname, "src/public/home.js"),
+    "index.js": path.resolve(__dirname, "client/src/public/index.js"),
   },
   module: {
     rules: [js, css],
@@ -51,7 +51,7 @@ const clientConfig = {
     },
   },
   output: {
-    path: path.resolve(__dirname, "dist/public"),
+    path: path.resolve(__dirname, "build/public"),
     filename: "[name]",
   },
 };
