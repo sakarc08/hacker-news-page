@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import './index.css';
 import { connect } from 'react-redux';
-import { upvotePost } from '../actions/Posts'
+import { upvotePost, hidePost } from '../actions/Posts'
 
 
-const Story = ({ upvotePost, post }) => {
+const Story = ({ upvotePost, post, hidePost }) => {
     const { _id: id, author, title, url, createdAt, points: likes, noOfComments: totalComments } = post;
     const domainName = url && new URL(url).hostname;
     const date = new Date(createdAt).toDateString();
 
     const upvote = (id) => {
         upvotePost(id);
+    }
+
+    const hide = (id) => {
+        hidePost(id);
     }
 
     return (
@@ -31,11 +35,11 @@ const Story = ({ upvotePost, post }) => {
                 <span className='date'>{date}</span>
 
                 <div className='hide-container'>
-                    <span className='hide-story'>[ Hide ]</span>
+                    <span className='hide-story' onClick={(e) => hide(id)}>[ Hide ]</span>
                 </div>
             </div>
         </div>
     )
 }
 
-export default connect(null, { upvotePost })(Story);
+export default connect(null, { upvotePost, hidePost })(Story);

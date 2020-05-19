@@ -4,13 +4,17 @@ import PropTypes from 'prop-types'
 import {fetchPosts} from '../actions/Posts'
 import { connect } from 'react-redux'
 
-const StoryBoardRoute = ({ fetchPosts, posts }) => {
+const StoryBoardRoute = ({ fetchPosts, posts, user }) => {
 
   useEffect(() => {
       fetchPosts();
   }, [fetchPosts])
 
-  console.log(posts.length)
+  posts = posts.filter(post => {
+    const index = post.hide.findIndex(item => item.user == user._id)
+    if(index < 0 ) return post;
+  })
+
   {return !posts.length ? <div>Loading posts</div> :  (
     <div className='story-board-container'>
       <div className='story-board-header'></div>
@@ -36,7 +40,8 @@ StoryBoardRoute.propTypes = {
 const mapStateToProps = (state) => {
   console.log(' state ', state)
   return {
-    posts: state.postsDetails.posts
+    posts: state.postsDetails.posts,
+    user: state.userDetails.user
   }
 }
 

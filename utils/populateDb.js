@@ -20,7 +20,8 @@ const populatePosts = async (totalRecords) => {
         url,
         createdAt: created_at,
         points,
-        noOfComments: num_comments
+        noOfComments: num_comments,
+        hide: []
     }));
 
     await Post.insertMany(docs)

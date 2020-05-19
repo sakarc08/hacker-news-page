@@ -21,7 +21,15 @@ const PostSchema = new mongoose.Schema({
     },
     noOfComments: {
         type: Number
-    }
+    },
+    hide: [
+        { 
+            user: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'users'
+            }
+        }
+    ],
 });
 
 export default mongoose.model('Post', PostSchema)

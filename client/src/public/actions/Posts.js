@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCHED_POSTS, UPVOTE_POST } from './types';
+import { FETCHED_POSTS, UPVOTE_POST, HIDE_POST } from './types';
 
 const fetchPosts = () => async dispatch => {
     try {
@@ -26,4 +26,17 @@ const upvotePost = (id) => async dispatch => {
     }
 }
 
-export { fetchPosts, upvotePost }
+const hidePost = (id) => async dispatch => {
+    try {
+        const result = await axios.put(`/api/posts/hide/${id}`);
+        dispatch({
+            type: HIDE_POST,
+            payload: { id: result.data.post._id }
+        })
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+
+export { fetchPosts, upvotePost, hidePost }

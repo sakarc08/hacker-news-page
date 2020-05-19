@@ -25,5 +25,18 @@ router.put('/upvote/:id', auth, async (req, res) => {
     }
 })
 
+router.put('/hide/:id', auth, async (req, res) => {
+    try {
+        const id = req.params.id;
+        const user = req.user;
+        const originalPost = await Post.findById(id);
+        originalPost.hide.push({ user: user.id })
+        originalPost.save();
+        res.json({post: originalPost});
+    } catch (error) {
+        console.log(error.message);
+    }
+})
+
 
 export default router
