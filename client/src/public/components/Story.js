@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
 import './index.css';
+import { connect } from 'react-redux';
+import { upvotePost } from '../actions/Posts'
 
 
-const Story = (props) => {
-    const { story } = props;
-    const { objectID, author, title, url, created_at: createdAt,points: likes, num_comments: totalComments, points } = story;
-    let [totalLikes, setLikes] = useState(likes);
-    totalLikes = sessionStorage.getItem(objectID) ? JSON.parse(sessionStorage.getItem(objectID)).likes : likes;
+const Story = ({ upvotePost, post }) => {
+    const { _id: id, author, title, url, createdAt, points: likes, noOfComments: totalComments } = post;
     const domainName = url && new URL(url).hostname;
     const date = new Date(createdAt).toDateString();
 
-    const upvote = (objectID, points) => {
-        sessionStorage.setItem(objectID, JSON.stringify({
-            likes: points+1,
-        }));
-        setLikes(points+1);
+    const upvote = (id) => {
+        upvotePost(id);
     }
 
     return (
@@ -23,8 +19,8 @@ const Story = (props) => {
                 <div className='like-comment-container'>
                     <span className="comments">{totalComments}</span>
                     <span className='likes-container'>
-                        <span className='likes'>{totalLikes}</span>
-                        <span className="upvote-button" onClick={() => upvote(objectID, totalLikes)}><i className='fas fa-caret-up'></i></span>    
+                        <span className='likes'>{likes}</span>
+                        <span className="upvote-button" onClick={(e) => upvote(id)}>Upvote</span>    
                     </span>
                 </div>  
             </div>
@@ -35,11 +31,11 @@ const Story = (props) => {
                 <span className='date'>{date}</span>
 
                 <div className='hide-container'>
-                    <span className='hide-story' onClick={props.hideStory}>[ Hide ]</span>
+                    <span className='hide-story'>[ Hide ]</span>
                 </div>
             </div>
         </div>
     )
 }
 
-export default Story;
+export default connect(null, { upvotePost })(Story);

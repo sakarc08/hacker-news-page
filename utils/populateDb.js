@@ -3,12 +3,13 @@ import axios from 'axios';
 
 const populatePosts = async (totalRecords) => {
     const totalDocs = await Post.countDocuments()
-    let page = 1, hitsPerPage = 20, docs= [];
+    let page = 1, hitsPerPage = 20, docs= [], temp = [];
     if(!totalDocs) {
-        while ((page*hitsPerPage) <= totalRecords) {
+        while (docs.length < totalRecords) {       
             const result = await axios.get('http://hn.algolia.com/api/v1/search?tags=story')
-            page++;
+
             docs = docs.concat(result.data.hits);
+            temp = docs.length > 0 && [...new Map(docs.map(doc => [doc.objectID, doc])).values()]
         }
     }
 

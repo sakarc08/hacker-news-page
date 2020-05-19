@@ -1,16 +1,17 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Login from '../components/Login'
 import { connect } from 'react-redux'
 import { Route } from 'react-router-dom'
 
-const PrivateRoute = ({ isLoggedIn, to, component }) => {
-    { return isLoggedIn ? <Route to={to} component={component} /> : <Login />}
+const PrivateRoute = ({ isLoggedIn, to, Component }) => {
+    { return isLoggedIn ? <Component /> : <Login />}
 }
 
 PrivateRoute.propTypes = {
 
 }
+
 const mapStateToProps = (state) => {
     const { isLoggedIn } = state.userDetails
     return {

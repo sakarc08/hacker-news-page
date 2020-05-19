@@ -34,7 +34,7 @@ export const loadUser = () => async dispatch => {
         console.log(error.message)
         dispatch({
             type: ERROR,
-            payload: { message: "Some Error occured"}
+            payload: { message: error.message}
         })
     }
 }

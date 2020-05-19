@@ -17,7 +17,6 @@ export const LoginReducer = (state=initialState, action) => {
             return { ...state, errors: [...state.errors, payload], loading: false }
         case USER_LOGGEDIN:
             if(payload.token) localStorage.setItem('token', payload.token)
-            console.log('payload', payload)
             return { ...state, loading: false, user: payload.user, isLoggedIn: true }
         default:
             return state

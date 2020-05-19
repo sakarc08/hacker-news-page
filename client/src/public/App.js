@@ -20,7 +20,7 @@ const App = props => {
     useEffect(() => {
         if(localStorage.token) setToken(localStorage.token);
         store.dispatch(loadUser())
-    }, [])
+    }, [loadUser])
 
     return (
         <Provider store={store}>
@@ -29,7 +29,7 @@ const App = props => {
                     <Route exact path="/" component={Landing}></Route>
                     <Route exact path="/login" component={Login}></Route>
                     <Route path="/signUp" component={Signup}></Route>
-                    <PrivateRoute path="/storyboard" component={StoryBoardRoute} />
+                    <PrivateRoute path="/storyboard" Component={StoryBoardRoute} />
                 </Switch>
             </Router>
         </Provider>

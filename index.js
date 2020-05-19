@@ -5,6 +5,7 @@ import React from 'react'
 import { renderToString } from 'react-dom/server';
 import App from './client/src/public/App'
 import UserController from './controllers/User';
+import PostController from './controllers/Post'
 import path from 'path';
 import connectDB from './config/db'
 
@@ -14,7 +15,10 @@ connectDB();
 app.use('/static', express.static(path.resolve(__dirname, "../build/public")));
 app.use(express.json())
 
-app.get('/', (req, res) => {
+app.use("/api/user", UserController);
+app.use("/api/posts", PostController);
+
+app.use('*', (req, res) => {
   try {
         const app = renderToString(<App />);
         fs.readFile('./client/src/public/index.html', { encoding: "utf8"}, (err, data) => {
@@ -26,23 +30,21 @@ app.get('/', (req, res) => {
     }
 })
 
-app.use("/api/user", UserController);
+// app.get("*", (req, res) => {
+//   res.status(404).send(`
+//     <html>
+//       <head>
+//         <style>
+//           body { font-family: Arial, sans-serif; font-size: 15px; }
+//           h1 { color: #c7c7c7; text-align: center; }
+//         </style>
+//       </head>
 
-app.get("*", (req, res) => {
-  res.status(404).send(`
-    <html>
-      <head>
-        <style>
-          body { font-family: Arial, sans-serif; font-size: 15px; }
-          h1 { color: #c7c7c7; text-align: center; }
-        </style>
-      </head>
-
-      <body>
-        <h1>404 - Not Found</h1>
-      </body>
-    </html>`);
-});
+//       <body>
+//         <h1>404 - Not Found</h1>
+//       </body>
+//     </html>`);
+// });
 
 const { PORT = 3008 } = process.env;
 

@@ -79,7 +79,6 @@ Login.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-    // console.log(state)
     const { user, isLoggedIn } = state.userDetails
     return {
         user,
