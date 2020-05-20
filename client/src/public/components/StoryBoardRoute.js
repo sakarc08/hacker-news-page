@@ -3,11 +3,13 @@ import Story from './Story';
 import PropTypes from 'prop-types'
 import {fetchPosts} from '../actions/Posts'
 import { connect } from 'react-redux'
+import setToken from '../utils/setToken';
 
 const StoryBoardRoute = ({ fetchPosts, posts, user }) => {
 
   useEffect(() => {
-      fetchPosts();
+    if(typeof window !== 'undefined' && window.localStorage.token) setToken(window.localStorage.token);
+    fetchPosts();
   }, [fetchPosts])
 
   posts = posts.filter(post => {

@@ -27,4 +27,21 @@ const populatePosts = async (totalRecords) => {
     await Post.insertMany(docs)
 };
 
-export default populatePosts
+const fillDB = async () => {
+    let docs = [];
+    const result = await axios.get('http://hn.algolia.com/api/v1/search_by_date?tags=front_page')
+    docs = result.data.hits.map(({ objectID, author, title, url, created_at, points, num_comments }) => ({
+        objectID,
+        author,
+        title,
+        url,
+        createdAt: created_at,
+        points,
+        noOfComments: num_comments,
+        hide: []
+    }));
+
+    await Post.insertMany(docs)
+}
+
+export  { populatePosts, fillDB }

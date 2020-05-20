@@ -8,20 +8,18 @@ import Signup from './components/Signup';
 import StoryBoardRoute from './components/StoryBoardRoute';
 import Login from './components/Login';
 import { createMemoryHistory } from 'history';
-import setToken from './utils/setToken';
 import PrivateRoute from './routing/PrivateRoute'
 import Landing from './components/Landing';
 import { loadUser } from './actions/Login';
+import setToken from './utils/setToken'
 
 const history = createMemoryHistory();
 
-
 const App = props => {
     useEffect(() => {
-        if(localStorage.token) setToken(localStorage.token);
+        if(typeof window !== 'undefined' && window.localStorage.token) setToken(window.localStorage.token);
         store.dispatch(loadUser())
-    }, [loadUser])
-
+    }, [])
     return (
         <Provider store={store}>
             <Router history={history}>
