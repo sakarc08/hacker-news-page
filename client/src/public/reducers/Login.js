@@ -1,4 +1,4 @@
-import { USER_LOGGEDIN, ERROR,NOT_AUTHENTICATED } from "../actions/types";
+import { USER_LOGGEDIN, ERROR,NOT_AUTHENTICATED, USER_LOGOUT } from "../actions/types";
 
 const initialState = {
     isLoggedIn: false,
@@ -18,6 +18,10 @@ export const LoginReducer = (state=initialState, action) => {
         case USER_LOGGEDIN:
             if(payload.token) localStorage.setItem('token', payload.token)
             return { ...state, loading: false, user: payload.user, isLoggedIn: true }
+
+        case USER_LOGOUT: 
+            localStorage.removeItem('token')
+            return { ...state, loading: false, user: null, isLoggedIn: payload }
         default:
             return state
     }

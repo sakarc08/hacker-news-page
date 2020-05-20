@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { loginUser } from '../actions/Login'
 import { connect } from 'react-redux';
 import StoryBoardRoute from './StoryBoardRoute'
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Label from '@material-ui/core/InputLabel'
@@ -35,7 +35,7 @@ const Login = ({ user, isLoggedIn, loginUser }) => {
         loginUser({ password, email })
     }
 
-    { return isLoggedIn ? <Redirect to='/storyboard' /> : (<Fragment>
+    { return isLoggedIn ? <Redirect to='/storyboard'></Redirect> : (<Fragment>
             <Form onSubmit={onSubmit}>
                 <FormField
                     value={email}
@@ -86,4 +86,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { loginUser })(Login)
+export default connect(mapStateToProps, { loginUser })(withRouter(Login))

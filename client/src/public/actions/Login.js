@@ -1,4 +1,4 @@
-import { ERROR, USER_LOGGEDIN, NOT_AUTHENTICATED } from './types'
+import { ERROR, USER_LOGGEDIN, NOT_AUTHENTICATED, USER_LOGOUT } from './types'
 import axios from 'axios';
 
 export const loginUser = ({ email, password }) => async dispatch => {
@@ -38,3 +38,21 @@ export const loadUser = () => async dispatch => {
         })
     }
 }
+
+export const logoutUser = () => async dispatch => {
+    try {
+        dispatch({
+            type: USER_LOGOUT,
+            payload: false
+        });
+
+    } catch (error) {
+        console.log(error.mesage);
+        dispatch({
+            type: ERROR,
+            payload: { message: "Error occured while logging out User"}
+        })
+    }
+}
+
+

@@ -6,7 +6,7 @@ import StoryBoard from './StoryBoardRoute'
 
 const Landing = ({ isLoggedIn}) => {
 
-    { return isLoggedIn ? <StoryBoard /> :  <Redirect to="/login" /> }
+    { return isLoggedIn ? <Redirect to="/storyboard" /> :  <Redirect to="/login" /> }
 
 }
 

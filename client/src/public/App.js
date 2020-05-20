@@ -2,7 +2,7 @@ import '@babel/polyfill'
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Provider } from 'react-redux';
-import { Route, Router, Switch } from 'react-router-dom'
+import { Route, Router, Switch, StaticRouter, BrowserRouter } from 'react-router-dom'
 import store from './store'
 import Signup from './components/Signup';
 import StoryBoardRoute from './components/StoryBoardRoute';
@@ -23,11 +23,11 @@ const App = props => {
     return (
         <Provider store={store}>
             <Router history={history}>
+                <Route exact path="/" component={Landing}></Route>
                 <Switch>
-                    <Route exact path="/" component={Landing}></Route>
                     <Route exact path="/login" component={Login}></Route>
-                    <Route path="/signUp" component={Signup}></Route>
-                    <PrivateRoute path="/storyboard" Component={StoryBoardRoute} />
+                    <Route exact path="/signUp" component={Signup}></Route>
+                    <PrivateRoute exact path="/storyboard" Component={StoryBoardRoute} />
                 </Switch>
             </Router>
         </Provider>
