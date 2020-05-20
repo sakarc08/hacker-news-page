@@ -1,10 +1,10 @@
-import React, { useEffect} from "react";
+import React, { useEffect, Fragment } from "react";
 import Story from './Story';
 import PropTypes from 'prop-types'
 import {fetchPosts} from '../actions/Posts'
 import { connect } from 'react-redux'
 import setToken from '../utils/setToken';
-
+import Chart from './Chart'
 const StoryBoardRoute = ({ fetchPosts, posts, user }) => {
 
   useEffect(() => {
@@ -18,18 +18,22 @@ const StoryBoardRoute = ({ fetchPosts, posts, user }) => {
   })
 
   {return !posts.length ? <div>Loading posts</div> :  (
-    <div className='story-board-container'>
-      <div className='story-board-header'></div>
-        <div className='stories-container'>
-           { posts.map((post, index) => <Story key={index} post={post} />) }
-         </div>
-         { posts.length > 0 ? (
-          <div className='more-stories'>
-            MORE
+    <Fragment>
+      <div className='story-board-container'>
+        <div className='story-board-header'></div>
+          <div className='stories-container'>
+            { posts.map((post, index) => <Story key={index} post={post} />) }
           </div>
-        ) : null }
-        
+          { posts.length > 0 ? (
+            <div className='more-stories'>
+              MORE
+            </div>
+          ) : null }   
       </div>
+      
+      <Chart posts={ posts } />
+    </Fragment>
+    
   )}
   
 }
