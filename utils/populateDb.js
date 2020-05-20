@@ -3,28 +3,32 @@ import axios from 'axios';
 
 const populatePosts = async (totalRecords) => {
     const totalDocs = await Post.countDocuments()
-    let page = 1, hitsPerPage = 20, docs= [], temp = [];
+    let page = 0, docs= [];
     if(!totalDocs) {
         while (docs.length < totalRecords) {       
-            const result = await axios.get('http://hn.algolia.com/api/v1/search?tags=story')
-
+            const result = await axios.get(`http://hn.algolia.com/api/v1/search?tags=story&page=${page}`)
+            page++;
             docs = docs.concat(result.data.hits);
-            temp = docs.length > 0 && [...new Map(docs.map(doc => [doc.objectID, doc])).values()]
+            docs = docs.filter((doc, index, self) =>
+                index === self.findIndex((t) => (
+                    t.objectID === doc.objectID
+                ))
+            )
         }
+
+        docs = docs.map(({ objectID, author, title, url, created_at, points, num_comments }) => ({
+            objectID,
+            author,
+            title,
+            url,
+            createdAt: created_at,
+            points,
+            noOfComments: num_comments,
+            hide: []
+        }));
+
+        await Post.insertMany(docs)
     }
-
-    docs = docs.map(({ objectID, author, title, url, created_at, points, num_comments }) => ({
-        objectID,
-        author,
-        title,
-        url,
-        createdAt: created_at,
-        points,
-        noOfComments: num_comments,
-        hide: []
-    }));
-
-    await Post.insertMany(docs)
 };
 
 const fillDB = async () => {
