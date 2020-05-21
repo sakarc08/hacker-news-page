@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { FETCHED_POSTS, UPVOTE_POST, HIDE_POST } from './types';
 
-const fetchPosts = () => async dispatch => {
+const fetchPosts = (currentPage) => async dispatch => {
     try {
-        const result = await axios.get('/api/posts');
+        const result = await axios.get(`/api/posts/${currentPage}`);
         console.log('posts ', result.data)
         dispatch({
             type: FETCHED_POSTS,

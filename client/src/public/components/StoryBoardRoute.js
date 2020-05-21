@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment } from "react";
+import React, { useEffect, Fragment, useState } from "react";
 import Story from './Story';
 import PropTypes from 'prop-types'
 import {fetchPosts} from '../actions/Posts'
@@ -11,11 +11,12 @@ import { Button } from "@material-ui/core";
 
 
 const StoryBoardRoute = ({ fetchPosts, posts, user, logoutUser }) => {
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if(typeof window !== 'undefined' && window.localStorage.token) setToken(window.localStorage.token);
-    fetchPosts();
-  }, [fetchPosts])
+    fetchPosts(currentPage);
+  }, [currentPage])
 
   posts = posts.filter(post => {
     const index = post.hide.findIndex(item => item.user == user._id)
@@ -26,18 +27,40 @@ const StoryBoardRoute = ({ fetchPosts, posts, user, logoutUser }) => {
     logoutUser()
   }
 
+  const previousPage = () => {
+    setCurrentPage(currentPage - 1);
+    // fetchPosts(currentPage);
+  }
+
+  const nextPage = () => {
+    setCurrentPage(currentPage => currentPage + 1);
+    // setMovies(prevMovies => ([...prevMovies, ...result]));
+    // fetchPosts(currentPage);
+  }
+
   {return !posts.length ? <div>Loading posts</div> :  (
     <Fragment>
       <div className='story-board-container'>
         <div className='story-board-header'>
-          <Button onClick={(e) => logout()}>Logout</Button>
+          <div className='story-row'>
+            <div className='sm'> 
+                <div className='like-comment-container-header'>
+                    <span className="comments">Comments</span>
+                    <span className='likes-container'> Likes</span>
+                    <span className="upvote-button" >Upvote</span>    
+                </div>  
+            </div>
+            <div className='news-details'>News Details</div>
+            <Button className="logout-btn" onClick={(e) => logout()}>Logout</Button>
+          </div>
         </div>
           <div className='stories-container'>
             { posts.map((post, index) => <Story key={index} post={post} />) }
           </div>
           { posts.length > 0 ? (
             <div className='more-stories'>
-              MORE
+                <Button disabled={currentPage <= 1} onClick={(e) => previousPage()}>PREVIOUS</Button> | 
+                <Button onClick={(e) => nextPage()}>NEXT</Button>
             </div>
           ) : null }   
       </div>

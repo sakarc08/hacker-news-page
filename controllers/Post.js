@@ -4,9 +4,14 @@ import auth from '../middlewares/auth'
 
 const router = express.Router();
 
-router.get('/', auth, async (req, res) => {
+router.get('/:currentPage', auth, async (req, res) => {
     try {
-        const posts = await Post.find({}).limit(20);
+        const totalDocs = await Post.countDocuments();
+        const currentPage = req.params.currentPage;
+
+        if((currentPage*20 === totalDocs)) res.status(401).json({ message: 'No more documents to fetch'})
+        
+        const posts = await Post.find({}).skip(20*(currentPage-1)).limit(20);
         if(!posts) return res.status(501).json({ message: "Failed to fetch documents"})
         res.json({ posts });
     } catch (error) {

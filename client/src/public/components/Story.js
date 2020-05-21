@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './index.css';
 import { connect } from 'react-redux';
 import { upvotePost, hidePost } from '../actions/Posts'
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 
 
 const Story = ({ upvotePost, post, hidePost }) => {
@@ -22,10 +23,10 @@ const Story = ({ upvotePost, post, hidePost }) => {
             <div className='sm'> 
                 <div className='like-comment-container'>
                     <span className="comments">{totalComments}</span>
-                    <span className='likes-container'>
-                        <span className='likes'>{likes}</span>
-                        <span className="upvote-button" onClick={(e) => upvote(id)}>Upvote</span>    
-                    </span>
+                    <span className='likes-container'>{likes}</span>
+                        {/* <span className='likes'></span> */}
+                    <span className="upvote-button" onClick={(e) => upvote(id)}><ThumbUpIcon /></span>    
+                    {/* </span> */}
                 </div>  
             </div>
             <div className='sm-2'>
