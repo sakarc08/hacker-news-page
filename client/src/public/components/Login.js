@@ -19,7 +19,7 @@ const FormField = styled(TextField)`
     margin-top: 30px;
 `
 
-const Login = ({ user, isLoggedIn, loginUser, errors }) => {
+const Login = ({ user, isLoggedIn, loginUser, errors, alerts }) => {
 
     const [formData, setformData] = useState({
         password: '',
@@ -38,7 +38,7 @@ const Login = ({ user, isLoggedIn, loginUser, errors }) => {
 
     { return isLoggedIn ? <Redirect to='/storyboard'></Redirect> : (<Fragment>
 
-            { errors.length > 0 ? <Alert errors={errors} /> : null }
+            { alerts.length > 0 ? <Alert alerts={alerts} /> : null }
             <Form onSubmit={onSubmit}>
                 <FormField
                     value={email}
@@ -86,7 +86,8 @@ const mapStateToProps = (state) => {
     return {
         user,
         isLoggedIn,
-        errors
+        errors,
+        alerts: state.alertDetails.alerts
     }
 }
 

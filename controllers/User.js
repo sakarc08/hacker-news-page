@@ -23,10 +23,10 @@ router.post('/login', [
 
         const { password, email } = req.body;
         const user = await User.findOne({ email });
-        if(!user) return res.status(401).json({ message: 'No user with such credentials exists' })
+        if(!user) return res.status(401).json({ errors: [{ msg: 'No user with such credentials exists'}] })
         
         const isSameUser = await bcrypt.compare(password, user.password);
-        if(!isSameUser) return res.status(401).json({ message: 'Password is incorrect' })
+        if(!isSameUser) return res.status(401).json({ errors: [ { msg: 'Password is incorrect'}] })
         const payload = {
             user : {
                 id: user._id
@@ -53,7 +53,8 @@ router.post('/signup', [
 
         const { username, password, email } = req.body;
         const userExists = await User.find({ email });
-        if(userExists) return res.status(401).json({ errors: [{ message: 'Email already registered'}]})
+        console.log('userExists', userExists)
+        if(userExists.length) return res.status(401).json({ errors: [{ message: 'Email already registered'}]})
 
         const user = User({
             username,

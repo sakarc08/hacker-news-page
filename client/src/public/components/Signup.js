@@ -2,12 +2,13 @@ import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import Label from '@material-ui/core/InputLabel'
+import store from '../store'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { signupUser } from '../actions/Signup'
 import Alert from './Alert'
 import {Redirect } from 'react-router-dom'
+import { SET_ALERT } from '../actions/types'
 
 const Form = styled.form`
         width: 50%;
@@ -18,7 +19,7 @@ const FormField = styled(TextField)`
     margin-top: 30px;
 `
 
-const Signup = ({ signupUser, errors, user }) => {
+const Signup = ({ signupUser, errors, user, alerts }) => {
     const [formData, setformData] = useState({
         username: '',
         password: '',
@@ -34,12 +35,13 @@ const Signup = ({ signupUser, errors, user }) => {
     const onSubmit = (e) => {
         e.preventDefault();
         if(password === confirmPassword) signupUser({ username, password, email })
+        else store.dispatch({ type: SET_ALERT, payload: { message: 'Password and Confirm Password do not match', type: 'danger'} })
     }
 
     if(user) return <Redirect to='/storyboard'></Redirect>
     return (
         <Fragment>
-            { errors.length > 0 ? <Alert errors={errors} /> : null }
+            { alerts.length > 0 ? <Alert alerts={alerts} /> : null }
             <Form onSubmit={onSubmit}>
                 <FormField
                     name="username"
@@ -101,13 +103,15 @@ const Signup = ({ signupUser, errors, user }) => {
 
 Signup.propTypes = {
     signupUser: PropTypes.func.isRequired,
+    
 }
 
 const mapStateToProps = (state) => {
     const { errors, user } = state.signUpDetails
     return {
         errors,
-        user
+        user,
+        alerts: state.alertDetails.alerts
     }
 }
 

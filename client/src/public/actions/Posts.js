@@ -22,7 +22,7 @@ const upvotePost = (id) => async dispatch => {
             payload: { id: result.data.post._id, points: result.data.post.points }
         })
     } catch (error) {
-        
+        console.log(error.message);
     }
 }
 

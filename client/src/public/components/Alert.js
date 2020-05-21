@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Alert = ({errors: alerts}) => {
+const Alert = ({alerts}) => {
     return (
          <div>
             { alerts && alerts.length > 0 && alerts.map((alert, index) => (
-                <div key={index} className='alert alert-danger'>
+                <div key={index} className={ `alert alert-${alert.type}`} >
                     { alert.message }
                 </div>
             ))}

@@ -1,4 +1,4 @@
-import { ERROR, USER_LOGGEDIN, NOT_AUTHENTICATED, USER_LOGOUT,CLEAR_ERROR } from './types'
+import { USER_LOGGEDIN, NOT_AUTHENTICATED, USER_LOGOUT, SET_ALERT, CLEAR_ALERT } from './types'
 import axios from 'axios';
 
 export const loginUser = ({ email, password }) => async dispatch => {
@@ -19,16 +19,18 @@ export const loginUser = ({ email, password }) => async dispatch => {
 
     } catch (error) {
         console.log(error.mesage);
-        dispatch({
-            type: ERROR,
-            payload: { message: error.response.data.message}
-        })
-
-        setTimeout(() => {
+        error.response.data.errors.forEach(item => {
             dispatch({
-                type: CLEAR_ERROR
+                type: SET_ALERT,
+                payload: { message: item.msg, type: 'danger'}
             })
-        }, 5000)
+
+            setTimeout(() => {
+                dispatch({
+                    type: CLEAR_ALERT
+                })
+            }, 5000)
+        })
     }
 }
 
@@ -51,11 +53,22 @@ export const logoutUser = () => async dispatch => {
             payload: false
         });
 
+        dispatch({
+            type: SET_ALERT,
+            payload: { message: 'You logged out successfully ', type: 'success'}
+        })
+
+        setTimeout(() => {
+            dispatch({
+                type: CLEAR_ALERT
+            })
+        }, 5000)
+
     } catch (error) {
         console.log(error.mesage);
         dispatch({
-            type: ERROR,
-            payload: { message: error.response.data.message}
+            type: SET_ALERT,
+            payload: { message: error.response.data.message, type: 'danger'}
         })
         
     }
