@@ -1,4 +1,4 @@
-import { ERROR, USER_LOGGEDIN, NOT_AUTHENTICATED, USER_LOGOUT } from './types'
+import { ERROR, USER_LOGGEDIN, NOT_AUTHENTICATED, USER_LOGOUT,CLEAR_ERROR } from './types'
 import axios from 'axios';
 
 export const loginUser = ({ email, password }) => async dispatch => {
@@ -21,8 +21,14 @@ export const loginUser = ({ email, password }) => async dispatch => {
         console.log(error.mesage);
         dispatch({
             type: ERROR,
-            payload: { message: "Error occured while addding User"}
+            payload: { message: error.response.data.message}
         })
+
+        setTimeout(() => {
+            dispatch({
+                type: CLEAR_ERROR
+            })
+        }, 5000)
     }
 }
 
@@ -33,8 +39,7 @@ export const loadUser = () => async dispatch => {
     } catch (error) {
         console.log(error.message)
         dispatch({
-            type: ERROR,
-            payload: { message: error.message}
+            type: NOT_AUTHENTICATED
         })
     }
 }
@@ -50,8 +55,9 @@ export const logoutUser = () => async dispatch => {
         console.log(error.mesage);
         dispatch({
             type: ERROR,
-            payload: { message: "Error occured while logging out User"}
+            payload: { message: error.response.data.message}
         })
+        
     }
 }
 

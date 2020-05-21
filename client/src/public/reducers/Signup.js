@@ -13,7 +13,8 @@ export const SignUpReducer = (state=initialState, action) => {
         case ERROR:
             return { ...state, errors: [...state.errors, payload], loading: false }
         case USER_ADDED:
-            return { ...state, loading: false, user: payload }
+            console.log('received ', payload)
+            return { ...state, loading: false, user: payload.user }
         default:
             return state
     }

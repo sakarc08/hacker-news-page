@@ -26,7 +26,7 @@ const App = props => {
                 <Route exact path="/" component={Landing}></Route>
                 <Switch>
                     <Route exact path="/login" component={Login}></Route>
-                    <Route exact path="/signUp" component={Signup}></Route>
+                    <Route exact path="/signup" component={Signup}></Route>
                     <PrivateRoute exact path="/storyboard" Component={StoryBoardRoute} />
                 </Switch>
             </Router>

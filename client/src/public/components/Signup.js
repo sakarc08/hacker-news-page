@@ -6,6 +6,8 @@ import Label from '@material-ui/core/InputLabel'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { signupUser } from '../actions/Signup'
+import Alert from './Alert'
+import {Redirect } from 'react-router-dom'
 
 const Form = styled.form`
         width: 50%;
@@ -16,7 +18,7 @@ const FormField = styled(TextField)`
     margin-top: 30px;
 `
 
-const Signup = ({ signupUser}) => {
+const Signup = ({ signupUser, errors, user }) => {
     const [formData, setformData] = useState({
         username: '',
         password: '',
@@ -31,11 +33,13 @@ const Signup = ({ signupUser}) => {
     
     const onSubmit = (e) => {
         e.preventDefault();
-        signupUser({ username, password, email })
+        if(password === confirmPassword) signupUser({ username, password, email })
     }
 
+    if(user) return <Redirect to='/storyboard'></Redirect>
     return (
         <Fragment>
+            { errors.length > 0 ? <Alert errors={errors} /> : null }
             <Form onSubmit={onSubmit}>
                 <FormField
                     name="username"
@@ -99,4 +103,12 @@ Signup.propTypes = {
     signupUser: PropTypes.func.isRequired,
 }
 
-export default connect(null, { signupUser })(Signup)
+const mapStateToProps = (state) => {
+    const { errors, user } = state.signUpDetails
+    return {
+        errors,
+        user
+    }
+}
+
+export default connect(mapStateToProps, { signupUser })(Signup)

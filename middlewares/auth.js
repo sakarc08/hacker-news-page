@@ -11,7 +11,7 @@ const auth = async (req, res, next) => {
         next()
     } catch (error) {
         console.log(error.message)
-        res.send('Server error')
+        res.status(500).json({ message: 'Server error'})
     }
 }
 

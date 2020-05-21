@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Label from '@material-ui/core/InputLabel'
 import styled from 'styled-components'
+import Alert from './Alert'
 
 const Form = styled.form`
         width: 50%;
@@ -18,7 +19,7 @@ const FormField = styled(TextField)`
     margin-top: 30px;
 `
 
-const Login = ({ user, isLoggedIn, loginUser }) => {
+const Login = ({ user, isLoggedIn, loginUser, errors }) => {
 
     const [formData, setformData] = useState({
         password: '',
@@ -36,6 +37,8 @@ const Login = ({ user, isLoggedIn, loginUser }) => {
     }
 
     { return isLoggedIn ? <Redirect to='/storyboard'></Redirect> : (<Fragment>
+
+            { errors.length > 0 ? <Alert errors={errors} /> : null }
             <Form onSubmit={onSubmit}>
                 <FormField
                     value={email}
@@ -68,7 +71,7 @@ const Login = ({ user, isLoggedIn, loginUser }) => {
                     Login
                 </Button>
 
-                Dont have account yet ?? <Link to="/signUp" > Create </Link> one now
+                Dont have account yet ?? <Link to="/signup" > Create </Link> one now
             </Form>
         </Fragment>)
     }
@@ -79,10 +82,11 @@ Login.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-    const { user, isLoggedIn } = state.userDetails
+    const { user, isLoggedIn, errors } = state.userDetails
     return {
         user,
-        isLoggedIn
+        isLoggedIn,
+        errors
     }
 }
 

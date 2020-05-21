@@ -8,9 +8,10 @@ import setToken from '../utils/setToken';
 import Chart from './Chart'
 import { withRouter } from "react-router-dom";
 import { Button } from "@material-ui/core";
+import Alert from './Alert'
 
 
-const StoryBoardRoute = ({ fetchPosts, posts, user, logoutUser }) => {
+const StoryBoardRoute = ({ fetchPosts, posts, user, logoutUser, errors }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -40,6 +41,7 @@ const StoryBoardRoute = ({ fetchPosts, posts, user, logoutUser }) => {
 
   {return !posts.length ? <div>Loading posts</div> :  (
     <Fragment>
+      { errors.length > 0 ? <Alert errors={errors} /> : null }
       <div className='story-board-container'>
         <div className='story-board-header'>
           <div className='story-row'>
@@ -81,7 +83,8 @@ const mapStateToProps = (state) => {
   console.log(' state ', state)
   return {
     posts: state.postsDetails.posts,
-    user: state.userDetails.user
+    user: state.userDetails.user,
+    errors: state.postsDetails.errors
   }
 }
 

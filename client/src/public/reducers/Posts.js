@@ -1,4 +1,4 @@
-import { ERROR,NOT_AUTHENTICATED, FETCHED_POSTS, UPVOTE_POST, HIDE_POST } from "../actions/types";
+import { ERROR,NOT_AUTHENTICATED, FETCHED_POSTS, UPVOTE_POST, HIDE_POST, CLEAR_ERROR } from "../actions/types";
 
 const initialState = {
     isLoggedIn: false,
@@ -14,7 +14,10 @@ export const PostsReducer = (state=initialState, action) => {
         case ERROR:
             return { ...state, errors: [...state.errors, payload], loading: false }
         case NOT_AUTHENTICATED:
-            return { ...state, errors: [...state.errors, payload], loading: false }
+            return { ...state, loading: false }
+        case CLEAR_ERROR: {
+            return { ...state, loading: false, errors: state.errors.slice(1)}
+        }
         case FETCHED_POSTS:
             return { ...state, loading: false, posts: payload.posts, isLoggedIn: true }
         case UPVOTE_POST: 

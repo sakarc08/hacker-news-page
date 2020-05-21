@@ -19,11 +19,14 @@ router.post('/login', [
 ],  async (req, res) => {
     try {
         const errors  = validationResult(req);
-        if(!errors.isEmpty()) return res.send({ errors: errors.array()})
+        if(!errors.isEmpty()) return res.status(401).send({ errors: errors.array()})
 
         const { password, email } = req.body;
-        const user = await User.findOne({ email }).select("-password");
+        const user = await User.findOne({ email });
         if(!user) return res.status(401).json({ message: 'No user with such credentials exists' })
+        
+        const isSameUser = await bcrypt.compare(password, user.password);
+        if(!isSameUser) return res.status(401).json({ message: 'Password is incorrect' })
         const payload = {
             user : {
                 id: user._id
@@ -31,6 +34,7 @@ router.post('/login', [
         }
 
         const token = await jwt.sign(payload, config.get("secretKey"));
+        delete user.password;
         res.json({ user, token });
     } catch (error) {
         console.log(error)
@@ -39,15 +43,18 @@ router.post('/login', [
 })
 
 router.post('/signup', [
-    check('username', 'Username not valid').notEmpty(),
+    check('username', 'Username not valid').notEmpty().isLength({min: 6}),
     check('password', 'Password not valid').notEmpty().isAlphanumeric(),
     check('email', 'Not a valid Email').isEmail()
 ],  async (req, res) => {
     try {
         const errors  = validationResult(req);
-        if(!errors.isEmpty()) return res.send({ errors: errors.array()})
+        if(!errors.isEmpty()) return res.status(401).json({ errors: errors.array()})
 
         const { username, password, email } = req.body;
+        const userExists = await User.find({ email });
+        if(userExists) return res.status(401).json({ errors: [{ message: 'Email already registered'}]})
+
         const user = User({
             username,
             email,
@@ -65,7 +72,7 @@ router.post('/signup', [
         }
 
         const token = await jwt.sign(payload, config.get("secretKey"));
-        res.json({ token })
+        res.json({ user:savedUser, token })
     } catch (error) {
         console.log(error)
     }
