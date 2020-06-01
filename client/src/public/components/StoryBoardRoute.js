@@ -8,6 +8,7 @@ import setToken from '../utils/setToken';
 import Chart from './Chart'
 import { withRouter } from "react-router-dom";
 import { Button } from "@material-ui/core";
+import AccountCircle from '@material-ui/icons/AccountCircle'
 import Alert from './Alert'
 
 
@@ -44,17 +45,20 @@ const StoryBoardRoute = ({ fetchPosts, posts, user, logoutUser, errors }) => {
       { errors.length > 0 ? <Alert errors={errors} /> : null }
       <div className='story-board-container'>
         <div className='story-board-header'>
-          <div className='story-row'>
-            <div className='sm'> 
-                <div className='like-comment-container-header'>
-                    <span className="comments">Comments</span>
-                    <span className='likes-container'> Likes</span>
-                    <span className="upvote-button" >Upvote</span>    
-                </div>  
-            </div>
-            <div className='news-details'>News Details</div>
-            <Button className="logout-btn" onClick={(e) => logout()}>Logout</Button>
-          </div>
+          {/* <div className='story-row'> */}
+              <div className='like-comment-container-header'>
+                  <span className="comments">Comments</span>
+                  <span className='likes-container'> Likes</span>
+                  <span className="upvote-button" >Upvote</span>    
+              </div>  
+              <div className='news-details'>News Details</div>
+              <span className="user-thumbnail">
+                <AccountCircle className='account-icon'></AccountCircle> 
+                {/* <span className='welcome-text'>Welcome</span>  */}
+                {user && user.username}
+              </span>
+              <Button className="logout-btn" onClick={(e) => logout()}>Logout</Button>
+          {/* </div> */}
         </div>
           <div className='stories-container'>
             { posts.map((post, index) => <Story key={index} post={post} />) }
@@ -84,7 +88,7 @@ const mapStateToProps = (state) => {
   return {
     posts: state.postsDetails.posts,
     user: state.userDetails.user,
-    errors: state.postsDetails.errors
+    errors: state.alertDetails.alerts
   }
 }
 

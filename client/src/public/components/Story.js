@@ -3,7 +3,9 @@ import './index.css';
 import { connect } from 'react-redux';
 import { upvotePost, hidePost } from '../actions/Posts'
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-
+import ModeComment from '@material-ui/icons/ModeComment'
+import Favorite from '@material-ui/icons/Favorite'
+import Button from '@material-ui/core/Button'
 
 const Story = ({ upvotePost, post, hidePost }) => {
     const { _id: id, author, title, url, createdAt, points: likes, noOfComments: totalComments } = post;
@@ -20,16 +22,22 @@ const Story = ({ upvotePost, post, hidePost }) => {
 
     return (
         <div className='story-row'>
-            <div className='sm'> 
+            {/* <div className='sm'>  */}
                 <div className='like-comment-container'>
-                    <span className="comments">{totalComments}</span>
-                    <span className='likes-container'>{likes}</span>
+                    <span className="comments">
+                        <ModeComment />
+                        {totalComments}</span>
+                    <span className='likes-container'>
+                        <Favorite />
+                        {likes}</span>
                         {/* <span className='likes'></span> */}
-                    <span className="upvote-button" onClick={(e) => upvote(id)}><ThumbUpIcon /></span>    
+                    <Button className='upvote' onClick={(e) => upvote(id)}>
+                      <span className='upvote-label'>Upvote</span><ThumbUpIcon />
+                    </Button>     
                     {/* </span> */}
-                </div>  
-            </div>
-            <div className='sm-2'>
+                {/* </div>   */}
+            {/* </div> */}
+            {/* <div className='sm-2'> */}
                 <span className='story-title'>{title}</span>
                 <span className='domain-name'>({domainName})</span>
                 <span className='author-name'> by {author}</span>

@@ -25,7 +25,7 @@ const serverConfig = {
   },
   externals: [nodeExternals()],
   entry: {
-    "index.js": path.resolve(__dirname, "index.js"),
+    "index.js": path.resolve(__dirname, "server.js"),
   },
   module: {
     rules: [js, { test: /\.(scss|css)$/, loader: "ignore-loader" }],

@@ -1,7 +1,5 @@
 import React, { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
 import store from '../store'
 import styled from 'styled-components'
 import { connect } from 'react-redux'
@@ -9,17 +7,17 @@ import { signupUser } from '../actions/Signup'
 import Alert from './Alert'
 import {Redirect } from 'react-router-dom'
 import { SET_ALERT } from '../actions/types'
+import { Form, FormField, Title, LoginUser } from './Form'
 
-const Form = styled.form`
-        width: 50%;
-        margin: 10% auto;
-    `
-
-const FormField = styled(TextField)`
-    margin-top: 30px;
+const SignUp = styled(LoginUser)`
+    &&& {
+        width: 100%;
+        float: unset;
+        margin-top: 20px;
+    }
 `
 
-const Signup = ({ signupUser, errors, user, alerts }) => {
+const Signup = ({ signupUser, isLoggedIn, user, alerts }) => {
     const [formData, setformData] = useState({
         username: '',
         password: '',
@@ -38,9 +36,11 @@ const Signup = ({ signupUser, errors, user, alerts }) => {
         else store.dispatch({ type: SET_ALERT, payload: { message: 'Password and Confirm Password do not match', type: 'danger'} })
     }
 
-    if(user) return <Redirect to='/storyboard'></Redirect>
+    if(isLoggedIn) return <Redirect to='/storyboard'></Redirect>
+    if(user) return <Redirect to='/login'></Redirect>
     return (
         <Fragment>
+            <Title>Create an account</Title>
             { alerts.length > 0 ? <Alert alerts={alerts} /> : null }
             <Form onSubmit={onSubmit}>
                 <FormField
@@ -89,13 +89,13 @@ const Signup = ({ signupUser, errors, user, alerts }) => {
                     
               />
 
-                 <Button
+                 <SignUp
                     type="submit"
                     variant="contained"
                     color="primary"
                 >
                     Sign Up
-                </Button>
+                </SignUp>
             </Form>
         </Fragment>
     )
@@ -107,11 +107,12 @@ Signup.propTypes = {
 }
 
 const mapStateToProps = (state) => {
-    const { errors, user } = state.signUpDetails
+    const { user, isLoggedIn } = state.userDetails
     return {
-        errors,
         user,
-        alerts: state.alertDetails.alerts
+        isLoggedIn,
+        alerts: state.alertDetails.alerts,
+        user: state.signUpDetails.user
     }
 }
 

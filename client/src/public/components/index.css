@@ -24,6 +24,20 @@ body {
 .story-board-header {
   background: rgb(255, 102, 0);
   height: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.user-thumbnail {
+  padding: 10px;
+  width: 125px;
+  display: grid;
+  grid-auto-flow: column;
+}
+
+.account-icon {
+  vertical-align: top;
+  margin: 0 5px;
 }
 
 .sm {
@@ -43,17 +57,9 @@ span i,
 .date {
   color: #828282;
 }
-.comments,
-.likes-container {
-  font-weight: 700;
-}
 
 .story-row {
   padding: 0.5em 1em;
-}
-
-.likes-container {
-  color: orange;
 }
 
 .hide-container {
@@ -72,10 +78,10 @@ span i,
   color: #ccccccab;
 }
 
-.story-title,
+/* .story-title,
 .author-name {
   font-weight: 800;
-}
+} */
 
 .story-row:nth-child(even) {
   background: #ccccccab;
@@ -85,25 +91,81 @@ span i,
   padding: 5px;
 }
 
-.upvote-button {
+/* .upvote-button {
   margin-left: 0.8em;
-}
+} */
 
-.like-comment-container,
-.like-comment-container-header {
+.like-comment-container {
   display: grid;
   grid-gap: 10px;
-  justify-items: end;
-  grid-auto-flow: column;
+  grid-template-areas: "storyTitle authorName" "domainName date" "comments likes" "upvote hideContainer";
+  grid-template-columns: 68% 29%;
+  grid-template-rows: 20% 25% 20% 10%;
+  padding: 5px;
+  grid-column-gap: 25px;
+  justify-items: flex-start;
+}
+
+.comments {
+  font-weight: 700;
+  grid-area: comments;
+}
+
+.likes-container {
+  color: orange;
+  grid-area: likes;
+}
+
+.upvote {
+  grid-area: upvote;
+}
+
+.story-title {
+  font-weight: 800;
+  grid-area: storyTitle;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.domain-name {
+  color: #828282;
+  grid-area: domainName;
+}
+
+.author-name {
+  font-weight: 800;
+  grid-area: authorName;
+  text-overflow: ellipsis;
+  word-break: break-all;
+}
+
+.date {
+  color: #828282;
+  grid-area: date;
+}
+
+.hide-container {
+  display: inline-block;
+  margin-left: 10px;
+  grid-area: hideContainer;
+}
+
+.hide-story {
+  width: unset;
+  margin-top: 15px;
+  grid-area: hideStory;
 }
 
 .logout-btn {
-  float: right;
+  padding: 10px;
+  min-width: unset;
 }
 
 .news-details {
-  width: 70%;
-  margin-left: 2em;
+  width: 65%;
+  padding: 10px;
   display: inline-block;
 }
 
@@ -121,15 +183,59 @@ span i,
 }
 
 @media (max-width: 600px) {
+  .news-details,
+  .like-comment-container-header {
+    display: none;
+  }
+}
+
+@media (min-width: 601px) {
+  .like-comment-container {
+    /* display: inline-table; */
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-areas: "comments likes upvote storyTitle authorName domainName date hideContainer";
+    grid-template-columns: 5% 3% 4% 26% 10% 16% 11% 6%;
+    grid-template-rows: unset;
+  }
+  .comments svg {
+    display: none;
+  }
+
+  .likes-container svg {
+    display: none;
+  }
+
+  .upvote-label {
+    display: none;
+  }
+
+  .like-comment-container-header {
+    display: grid;
+    grid-gap: 10px;
+    justify-items: end;
+    grid-auto-flow: column;
+    padding: 10px;
+    grid-column-gap: 20px;
+    grid-template-areas: "comments likes upvote";
+  }
+
+  .story-title {
+    word-break: break-word;
+    white-space: unset;
+  }
+}
+
+@media (max-width: 600px) {
   .story-container {
     width: 100%;
   }
 
-  .story-row {
+  /* .story-row {
     padding: 10px 3%;
     display: flex;
     flex-direction: column-reverse;
-  }
+  } */
 
   .sm-2 {
     width: 90%;

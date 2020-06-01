@@ -3,7 +3,7 @@ import { check, validationResult} from 'express-validator'
 import User from '../models/User'
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken'
-import config from 'config'
+import config from '../config/config'
 import auth from '../middlewares/auth';
 
 const router = express.Router();
@@ -33,7 +33,7 @@ router.post('/login', [
             }
         }
 
-        const token = await jwt.sign(payload, config.get("secretKey"));
+        const token = await jwt.sign(payload, config.secretKey);
         delete user.password;
         res.json({ user, token });
     } catch (error) {
@@ -53,8 +53,7 @@ router.post('/signup', [
 
         const { username, password, email } = req.body;
         const userExists = await User.find({ email });
-        console.log('userExists', userExists)
-        if(userExists.length) return res.status(401).json({ errors: [{ message: 'Email already registered'}]})
+        if(userExists.length) return res.status(401).json({ errors: [{ msg: 'Email already registered'}]})
 
         const user = User({
             username,
@@ -72,7 +71,7 @@ router.post('/signup', [
             }
         }
 
-        const token = await jwt.sign(payload, config.get("secretKey"));
+        const token = await jwt.sign(payload, config.secretKey);
         res.json({ user:savedUser, token })
     } catch (error) {
         console.log(error)

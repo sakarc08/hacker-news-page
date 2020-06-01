@@ -2,24 +2,11 @@ import React, { useState, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { loginUser } from '../actions/Login'
 import { connect } from 'react-redux';
-import StoryBoardRoute from './StoryBoardRoute'
-import { Link, Redirect, withRouter } from 'react-router-dom';
-import TextField from '@material-ui/core/TextField'
-import Button from '@material-ui/core/Button'
-import Label from '@material-ui/core/InputLabel'
-import styled from 'styled-components'
+import { Redirect } from 'react-router-dom';
+import {CreateAccount, ActionsContainer, Form, FormField, LoginUser, Title } from './Form'
 import Alert from './Alert'
 
-const Form = styled.form`
-        width: 50%;
-        margin: 10% auto;
-    `
-
-const FormField = styled(TextField)`
-    margin-top: 30px;
-`
-
-const Login = ({ user, isLoggedIn, loginUser, errors, alerts }) => {
+export const Login = ({ isLoggedIn, loginUser, alerts }) => {
 
     const [formData, setformData] = useState({
         password: '',
@@ -37,7 +24,7 @@ const Login = ({ user, isLoggedIn, loginUser, errors, alerts }) => {
     }
 
     { return isLoggedIn ? <Redirect to='/storyboard'></Redirect> : (<Fragment>
-
+            <Title>Welcome to HackerNews</Title>
             { alerts.length > 0 ? <Alert alerts={alerts} /> : null }
             <Form onSubmit={onSubmit}>
                 <FormField
@@ -62,16 +49,17 @@ const Login = ({ user, isLoggedIn, loginUser, errors, alerts }) => {
                     label="Password"
                     type="password"
               />
-
-                <Button
+            <ActionsContainer>
+                <LoginUser
                     type="submit"
                     variant="contained"
                     color="primary"
                 >
                     Login
-                </Button>
+                </LoginUser>
 
-                Dont have account yet ?? <Link to="/signup" > Create </Link> one now
+                <CreateAccount to="/signup" > Create Account </CreateAccount>
+            </ActionsContainer>
             </Form>
         </Fragment>)
     }
@@ -79,16 +67,17 @@ const Login = ({ user, isLoggedIn, loginUser, errors, alerts }) => {
 
 Login.propTypes = {
     loginUser: PropTypes.func.isRequired,
+    isLoggedIn: PropTypes.bool.isRequired,
+    alerts: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => {
-    const { user, isLoggedIn, errors } = state.userDetails
+    const { user, isLoggedIn } = state.userDetails
     return {
         user,
         isLoggedIn,
-        errors,
         alerts: state.alertDetails.alerts
     }
 }
 
-export default connect(mapStateToProps, { loginUser })(withRouter(Login))
+export default connect(mapStateToProps, { loginUser })(Login)
