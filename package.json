@@ -56,7 +56,7 @@
     "ignore-loader": "^0.1.2",
     "jest": "^26.0.1",
     "jest-transform-css": "^2.0.0",
-    "mocha": "7.1.1",
+    "mocha": "10.2.0",
     "nodemon": "2.0.2",
     "react-addons-test-utils": "15.6.2",
     "react-test-renderer": "^16.13.1",
